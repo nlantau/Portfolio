@@ -11,3 +11,7 @@ clearly (for instance in used libraries).
 
 Do you find something that I've missed to reference or anything that looks wrong or whatever, please help me out by notifing me so I can
 update and/or clarify the code! I do *not* what do claim any rights to other authors work.
+
+## TODO
++ Python folder
++ C folder
