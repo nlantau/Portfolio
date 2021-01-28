@@ -44,27 +44,3 @@ python plotter.py QS_Rec_1000_iter.CSV
     + os
     + subprocess
 
-## Shell Script - "Old"
-
-#### The shell script works as follows:
-+ a for-each loop calls and run the executable C program and passes in a textfile (hard coded)
-+ Resulting output is programmed in the C executable to be sent to STDERR
-+ The shell scripts output is sent to STDOUT
-
-Having it this way allows the C programs output to be redirected to a textfile containing
-the results, without any text from STDOUT (which is used by the shell script to display progress)
-
-## How to compile
-gcc driver_main.c Templates/read_file.c QS_rec/QS_rec.c -O2 -o qs_reca
-
-## How to commence test - Shell
-./tester.zsh 2> Results/QS_loop_10iterations_each.txt
-
-The "2>" means that STDERR is sent to whatever is on its right hand side (results textfile)
-
-## Testing process
-+ Example:
-    + 10 iterations of Quick Sort with 100 numbers
-    + 10 iterations of Quick Sort with 1000 numbers
-    + 10 iterations of...
-    + and so on
