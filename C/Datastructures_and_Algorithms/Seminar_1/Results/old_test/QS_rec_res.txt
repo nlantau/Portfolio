@@ -1,0 +1,20 @@
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 100
+> Time spent for Quick Sort Recursive: 0.000010 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 1000
+> Time spent for Quick Sort Recursive: 0.000125 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 10000
+> Time spent for Quick Sort Recursive: 0.002762 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 100000
+> Time spent for Quick Sort Recursive: 0.120799 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 1000000
+> Time spent for Quick Sort Recursive: 10.409422 seconds

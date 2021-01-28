@@ -1,0 +1,16 @@
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 1000
+> Time spent for Quick Sort: 0.000084 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 10000
+> Time spent for Quick Sort: 0.001738 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 100000
+> Time spent for Quick Sort: 0.106167 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 1000000
+> Time spent for Quick Sort: 9.492829 seconds

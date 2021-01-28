@@ -1,0 +1,12 @@
+
+> ------------ RESULT ------------------
+> Amount of integer to search: 1000000
+> Searching for 26
+> Found 26 at 324583
+> Time spent for Binary Search - Recursive: 0.000007 seconds
+
+> ------------ RESULT ------------------
+> Amount of integer to search: 10000
+> Searching for 26
+> Found 26 at 86
+> Time spent for Binary Search - Recursive: 0.000003 seconds

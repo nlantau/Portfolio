@@ -214,3 +214,7 @@ dmypy.json
 cython_debug/
 
 .DS_Store
+*/.DS_Store
+*.DS_Store
+Embedded_C/.DS_Store
+Embedded_C/Computer_Engineering/.DS_Store

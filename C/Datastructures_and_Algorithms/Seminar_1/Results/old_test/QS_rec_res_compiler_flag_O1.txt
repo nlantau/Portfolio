@@ -1,0 +1,43 @@
+Compiler Flag -O1
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 100
+> Time spent for Quick Sort Recursive: 0.000007 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 1000
+> Time spent for Quick Sort Recursive: 0.000060 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 10000
+> Time spent for Quick Sort Recursive: 0.001012 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 100000
+> Time spent for Quick Sort Recursive: 0.022290 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 1000000
+> Time spent for Quick Sort Recursive: 1.567688 seconds
+
+Compiler Flag -O2
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 100
+> Time spent for Quick Sort Recursive: 0.000006 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 1000
+> Time spent for Quick Sort Recursive: 0.000058 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 10000
+> Time spent for Quick Sort Recursive: 0.000737 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 100000
+> Time spent for Quick Sort Recursive: 0.022005 seconds
+
+> ------------ RESULT ------------------
+> Amount of integers sorted: 1000000
+> Time spent for Quick Sort Recursive: 1.671869 seconds
