@@ -1,0 +1,25 @@
+#!/bin/sh
+# nlantau, 2021-05-11
+
+previous_fw_start=$(ls -lt | awk '/^-rw-r/ {print $0}' | grep -m 1 -E '2021[0-9\-]+_[0-9:]+' | awk '{print $9}' | sed 's/_/ /')
+
+org_dummy=$(echo $previous_fw_start | sed 's/ /_/')
+
+# If previous_fw_start, remove it
+[[ -z $previous_fw_start ]] || rm -f "`pwd`/$org_dummy"
+
+function debug() {
+  echo "Previous fw start: $previous_fw_start"
+  echo "org dummy        : $org_dummy"
+}
+
+debug
+
+# Pass previous_fw_start to journalctl, else fetch todays date and pass it to journalctl
+journalctl -g "IN=.*OUT=.*" -o cat --output-fields=MESSAGE -S "${previous_fw_start:-`date '+%x'`}" > latest.log
+
+# Trim down the logged data, keep the essential fields
+prettify=$(cat latest.log | awk '{print $1,$4,$5,$12,$13,$14}' > pretty_latest.log)
+
+# Print pretty_latest.log with bat. Use cat if bat does not exist
+{ [[ $( command -v bat ) ]] && bat pretty_latest.log ;} || cat pretty_latest.log

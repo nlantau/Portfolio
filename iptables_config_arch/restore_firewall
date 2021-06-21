@@ -1,0 +1,29 @@
+#!/bin/sh
+# nlantau, 2021-05-10
+
+echo -e "\n\n > Restoring firewall\n\n------------\n"
+
+# Set default policies of built-in chains to ACCEPT
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+
+# Flush the nat
+sudo iptables -t nat -F
+
+# Flush the mangle tables
+sudo iptables -t mangle -F
+
+# Flush all chains
+sudo iptables -F
+
+# Flush all non-default chains
+sudo iptables -X
+
+# Restore /etc/iptables/iptables.rules
+sudo sh -c 'echo -e "#Empty iptables rule file\n*filter\n:INPUT ACCEPT [0:0]\n:FORWARD ACCEPT [0:0]\n:OUTPUT ACCEPT [0:0]\nCOMMIT" > /etc/iptables/iptables.rules'
+
+# Display current state
+sudo iptables -nvL
+
+echo -e "\n------------\n\n > Firewall restored\n\n"

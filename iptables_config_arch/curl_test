@@ -1,0 +1,34 @@
+#!/bin/sh
+# nlantau, 2021-05-07
+
+[[ -z $1 ]] && { echo "Usage: $0 <local-port> <dest-port>"; exit -1; }
+
+PORT=$1
+DST=$2
+
+echo "> Using local port: $1 and destination port: $2"
+
+ARP=$(arp -a | grep -v incomplete | awk '/^archcrypt.lan/ {print substr($2,2,14)}' | grep -E '\w+')
+
+
+if [[ $? -eq 1 ]]; then
+  DNS=$(cat /etc/resolv.conf | awk '/^nameserver/ {print $2}')
+  echo "DNS: $DNS"
+
+  echo "Starting nmap scan..."
+  res=$(nmap -sn $DNS/24 >/dev/null 2>&1)
+
+  echo "nmap done"
+
+  ARP=$(arp -a | grep -v incomplete | awk '/^archcrypt.lan/ {print substr($2,2,14)}' | grep -E '\w+')
+  { [[ -z $ARP ]] && printf "> Could not find host. Exiting\n" && exit 1;}
+  echo $ARP
+
+  sudo curl --local-port $PORT http://$ARP:$DST/dummyfile -o fetched_file
+else
+  sudo curl --local-port $PORT http://$ARP:$DST/dummyfile -o fetched_file
+fi
+
+
+
+

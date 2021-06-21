@@ -1,0 +1,114 @@
+#!/bin/sh
+# nlantau, 2021-05-10
+
+
+while getopts "hlvrs" o; do case "${o}" in
+  h) printf "\n > To enable logging set -l flag\n " 
+     printf "> To enable verbose output set -v flag\n "
+     printf "> To restore firewall set -r flag\n "
+     printf "> To view current settings and exit set -s flag\n\n" && exit 0;;
+  l) logging=log ;;
+  v) verbose=on ;;
+  r) { [[ -e restore_firewall ]] && ./restore_firewall && exit 0 ;} ||
+     printf "> Could not find \"restore_firewall\". Exiting...\n" && exit 1 ; ;;
+  s) view_settings=on ;;
+  *) printf "\n > Invalid option. See \"-h\" for help\n\n" && exit 1 ;;
+esac done
+
+
+DNSserver=$(cat /etc/resolv.conf | awk '/^nameserver/ {print $2}')
+NIC=$(ip a | awk '/<BROADCAST/ {print $2}' | grep -Eo '[^:]' | tr -d "\n")
+
+function flush_drop() {
+  sudo iptables -F # Flush all chains
+  sudo iptables -X # Flush all non-default chains
+  sudo iptables -P INPUT DROP
+  sudo iptables -P FORWARD DROP
+  sudo iptables -P OUTPUT DROP
+}
+
+function enable_SSH_from_subnet() {
+  # Enable other nic on subnet to create SSH session 
+  sudo iptables -A INPUT -i $NIC -p tcp -s $DNSserver/24 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT
+  sudo iptables -A OUTPUT -o $NIC -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+}
+
+function enable_web() {
+  # Enable nic to create web sessions. Established server data allowed
+  sudo iptables -A INPUT -i $NIC -p tcp -m multiport --sports 80,443 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+  sudo iptables -A OUTPUT -o $NIC -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT
+}
+
+function enable_DNS() {
+  # Enable incoming and outgoing UDP traffic to port 53 (DNS)
+  sudo iptables -A INPUT -i $NIC -p udp --sport 53 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+  sudo iptables -A OUTPUT -o $NIC -p udp --dport 53 -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT
+}
+
+function enable_log() {
+  # Create new chain
+  sudo iptables -N logdrop
+  sudo iptables -A logdrop -m limit --limit 5/m --limit-burst 10 -j LOG
+  sudo iptables -A logdrop -j DROP
+
+  # Log INPUT with dport 80, 443 if NEW
+  sudo iptables -A INPUT -i $NIC -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW -j logdrop
+}
+
+
+function verbose_output() {
+  if [[ $verbose = "on" ]]; then
+    printf "\n\n"
+    echo " > Nameserver: $DNSserver"
+    echo " > Nic       : $NIC"
+    { [[ $logging = "log" ]] && echo " > Logging   : NEW INPUT dports 80,443" ;} || echo " > Logging   : off"
+  fi
+}
+
+function view_current_settings() {
+  printf "\n\n ***** CURRENT SETTINGS *****\n\n"
+  sudo iptables -nvL | grep LOG >/dev/null 2>&1
+  [[ $? -eq 0 ]] && logging=log
+  verbose=on
+  sudo iptables -vnL | sed 's/lo /lo    /'
+  verbose_output
+  prev_fw_start=$(ls -lt | awk '/^-rw-r/ {print $0}' | grep -m 1 -E '2021[0-9\-]+_[0-9:]+' | awk '{print $9}' | sed 's/_/ /')
+  printf " > Started at: ${prev_fw_start:--}\n\n"
+}
+
+function export_starttime() {
+  dummy="$(date '+%x_%X')"
+  touch $dummy
+}
+
+function main(){
+  flush_drop
+  enable_DNS
+  enable_web
+  enable_SSH_from_subnet
+  sudo iptables-save -f /etc/iptables/iptables.rules
+}
+
+##### PROGRAM STARTS HERE ##########################################################################
+
+[[ -z $view_settings ]] || { view_current_settings && exit 1 ;}
+
+main && printf "\n > Iptables config completed\n\n------------\n"
+
+case "$logging" in
+  "log")
+    enable_log ;
+    export_starttime ;
+    sudo iptables -vnL | sed 's/lo /lo    /' ;
+    verbose_output ;
+    printf "\n------------\n\n > Logging New attempts on dports 80,443\n"
+    printf " > Run \"viewlog\" to stream log\n\n"
+    ;;
+  *)
+    sudo iptables -vnL | sed 's/lo /lo    /' ;
+    verbose_output ;
+    printf "\n------------\n\n > Logging NOT active\n\n"
+    ;;
+esac
+
+

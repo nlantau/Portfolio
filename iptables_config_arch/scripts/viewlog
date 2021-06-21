@@ -1,0 +1,4 @@
+#!/bin/sh
+# nlantau, 2021-05-11
+
+journalctl -f -g "IN=.*OUT=.*" -o cat --output-fields=MESSAGE -S "`date '+%x %X'`" | awk '{print $1,$4,$5,$12,$13,$14}'
