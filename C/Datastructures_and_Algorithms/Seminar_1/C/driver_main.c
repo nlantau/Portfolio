@@ -27,7 +27,7 @@
 
 #define PREV_INCLUDES 0
 #define STDOUT 0
-#define STDOUT_ALL_NUMBERS 0
+#define STDOUT_ALL_NUMBERS 1
 #define CSV 1
 #define STDOUT_BIN_SEARCH 0
 
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 #endif
     struct timespec start, end;
 
-    char *algo_name = "Merge Sort - Iterative";
+    char *algo_name = "Quick Sort - Iterative";
     clock_gettime(CLOCK_MONOTONIC, &start);
 
     quick_sort_mot(data, 0, len - 1);
@@ -100,9 +100,9 @@ int main(int argc, char *argv[])
     int i = 0;
     while (i < len - 1)
     {
-        printf("%d\n", data[i++]);
+        printf("%d, ", data[i++]);
     }
-    printf("%d", data[i++]);
+    printf("%d\n", data[i++]);
 #endif
 
     /*********************************************************************/
