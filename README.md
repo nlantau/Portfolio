@@ -31,7 +31,8 @@ clarify the code! I do *not* what do claim any rights to other authors work.
 ### Python
 + TODO
 
-# Information
-
+### Iptables
+I implemented an iptables [firewall](https://github.com/nlantau/Portfolio/blob/master/shell-iptables_on_arch/firewall) on Arch Linux
+and used MacOS as the "attacker" box. Read more about it [here](https://github.com/nlantau/Portfolio/tree/master/shell-iptables_on_arch)
 
 
