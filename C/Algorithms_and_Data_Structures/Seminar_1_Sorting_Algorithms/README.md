@@ -4,7 +4,7 @@ I've created a couple of Python scripts to test my C programs and their algorith
 [Plott_results](https://github.com/nlantau/Portfolio/tree/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms/Python/Plott_results)
 was used on MacOS.
 
-[Plott_results](https://github.com/nlantau/Portfolio/tree/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms/Python/Plott_results_WSL)
+[Plott_results_WSL](https://github.com/nlantau/Portfolio/tree/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms/Python/Plott_results_WSL)
 was used on Windows 10 with WSL
 
 ## Python - controll_sort.py
