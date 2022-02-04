@@ -17,20 +17,17 @@ the results, without any text from STDOUT (which is used by the Python script to
 ## Python - plotter.py
 + Script that plots results using matplotlib
 
-[Link to number files](https://github.com/nlantau/DT256CHT20/tree/main/numb_files)
+[Link to Python
+Tester Script](https://github.com/nlantau/Portfolio/tree/master/C/Datastructures_and_Algorithms/Seminar_1/Python/Plott_results/tester.py)
 
 [Link to Python
-Tester Script](https://github.com/nlantau/DT256CHT20/blob/main/Python/Plott_results/tester.py)
-
-[Link to Python
-Plotter Script](https://github.com/nlantau/DT256CHT20/blob/main/Python/Plott_results/plotter.py)
-
+Plotter Script](https://github.com/nlantau/Portfolio/blob/master/C/Datastructures_and_Algorithms/Seminar_1/Python/Plott_results/plotter.py)
 ## How to commence test - Python
 
 1. Compile C program
 
 ```shell
-gcc driver_main.c Templates/read_file.c QS_rec/QS_rec.c -O1 -o qs_reca
+gcc driver_main.c Templates/read_file.c QS_rec/QS_rec.c -O2 -Wall -o qs_reca
 ```
 2. Run Python tester.py
 
