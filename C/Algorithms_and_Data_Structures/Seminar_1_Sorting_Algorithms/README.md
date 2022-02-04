@@ -12,7 +12,7 @@ was used on Windows 10 with WSL
     1. If "sorted" textfile is sorted
     2. If number occurence in sorted text file equals the original file
 
-You can find the script [here](https://github.com/nlantau/Portfolio/blob/master/C/Datastructures_and_Algorithms/Seminar_1/Python/Plott_results/controll_sort.py)
+You can find the script [here](https://github.com/nlantau/Portfolio/blob/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms/Python/Plott_results/controll_sort.py)
 
 ## Python - tester.py
 + Script that executes C program with number files in specified folder
