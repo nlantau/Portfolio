@@ -39,7 +39,8 @@ clarify the code! I do *not* what do claim any rights to other authors work.
 	+ More information [here](https://github.com/nlantau/Portfolio/tree/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms)
 
 ### Embedded C
-+ TODO
+I'm a TA in *Embedded Systems Programming* and *Computer Engineering* during the spring of 2022. In this section, I'll keep
+some code snippets useful for me to have during those sessions. 
 
 ### Python
 + TODO
