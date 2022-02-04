@@ -1,5 +1,5 @@
 # Firewall
-TODO: More verbose README
+A more in-depth explanation is described in the PDF found [here](https://github.com/nlantau/Portfolio/blob/master/shell-iptables_on_arch/DA273B_Lab3_Niklas_Lantau.pdf)
 
 ![Picture of scripts running](prev.png)
 
