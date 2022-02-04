@@ -1,10 +1,10 @@
 # Testing Algorithms - Setup
 I've created a couple of Python scripts to test my C programs and their algorithms
 
-[Plott_results](https://github.com/nlantau/Portfolio/tree/master/C/Datastructures_and_Algorithms/Seminar_1/Python/Plott_results)
+[Plott_results](https://github.com/nlantau/Portfolio/tree/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms/Python/Plott_results)
 was used on MacOS.
 
-[Plott_results](https://github.com/nlantau/Portfolio/tree/master/C/Datastructures_and_Algorithms/Seminar_1/Python/Plott_results_WSL)
+[Plott_results](https://github.com/nlantau/Portfolio/tree/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms/Python/Plott_results_WSL)
 was used on Windows 10 with WSL
 
 ## Python - controll_sort.py
@@ -22,12 +22,12 @@ You can find the script [here](https://github.com/nlantau/Portfolio/blob/master/
 Having it this way allows the C programs output to be redirected to a textfile containing
 the results, without any text from STDOUT (which is used by the Python script to display progress)
 
-You can find the script [here](https://github.com/nlantau/Portfolio/tree/master/C/Datastructures_and_Algorithms/Seminar_1/Python/Plott_results/tester.py)
+You can find the script [here](https://github.com/nlantau/Portfolio/blob/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms/Python/Plott_results/tester.py)
 
 ## Python - plotter.py
 + Script that plots results using matplotlib
 
-You can find the script [here](https://github.com/nlantau/Portfolio/blob/master/C/Datastructures_and_Algorithms/Seminar_1/Python/Plott_results/plotter.py)
+You can find the script [here](https://github.com/nlantau/Portfolio/blob/master/C/Algorithms_and_Data_Structures/Seminar_1_Sorting_Algorithms/Python/Plott_results/plotter.py)
 ## How to commence test - Python
 
 1. Compile C program
