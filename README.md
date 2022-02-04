@@ -2,6 +2,19 @@
 
 Welcome to this portfolio of code!
 
+As of 2022-02-04, I've made some clean up of this repository. It's far from complete still,
+such as my Python section. To get some grasp of my (usually) quick and dirty coding challenge
+solutions, why not head over to my [Code-Challenges](https://github.com/nlantau/Code-Challenges) repo.
+
+Why install precompiled binaries in no time, when you can compile everything from source?
+Glad you asked. [This](https://github.com/nlantau/Gentoo) is my Gentoo configs.
+
+I really enjoy exploring the new and unknown; learning new programming languages, paradigms and algorithms
+are some of my top nerdy things I enjoy doing. Flipping bits in a low-level C programs that gets cross-compiled to 8-bit
+MCUs are just as fun as learning how combinator logic make point free solutions possible in Haskell and APL. I have a
+firm belief that exploring a wide variety of topics outside my comfortable domains make me a better problem solver.
+
+
 As of 2021-01-28, I've just started to compile this repo as I figured it might
 be a pretty good thing to have. I'm in the making and updating of the repo, so
 it's a bit of a mess right now. Hopefully, I'll have it structured and
