@@ -2,7 +2,8 @@
 
 
 ## UART
-Strive towards working with serial.c in uart_bluetooth/lib/serial.c
+Strive towards working with serial.c in xbee_uart/lib/serial.c. This library is 
+quite good and influence by Tomasz Wisniewski
 
 ## ADC
 Updated (not tested) in oled_hc_adc/lib/adc.c
@@ -14,5 +15,3 @@ Updated (not tested) in oled_hc_adc/lib/ultrasonic.c
 oled_hc_adc/lib/{font.c,i2cmaster.c,lcd.c}
 Not tested since 2021-05. 
 
-##
-Yeth
