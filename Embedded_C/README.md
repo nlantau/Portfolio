@@ -13,4 +13,4 @@ discussion with my fellow students.
 
 The usage of Make is something I've had to figure out by myself, which I'm
 quite proud of (regarding makefiles for embedded devices). My go-to Makefile
-that I've created is found [here](https://github.com/nlantau/Portfolio/blob/master/Embedded_C/DT201C_2022_TA/lab_3/Makefile)
+that I've created is found [here](https://github.com/nlantau/Portfolio/blob/master/Embedded_C/TA_Computer_Engineering/traffic_light/Makefile)
