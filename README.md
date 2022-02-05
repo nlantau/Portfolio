@@ -7,7 +7,7 @@ such as my Python section. To get some grasp of my (usually) quick and dirty cod
 solutions, why not head over to my [Code-Challenges](https://github.com/nlantau/Code-Challenges) repo.
 
 Why install precompiled binaries in no time, when you can compile everything from source?
-Glad you asked. [This](https://github.com/nlantau/Gentoo) is my Gentoo configs.
+Glad you asked. [These](https://github.com/nlantau/Gentoo) are my Gentoo configs.
 
 I really enjoy exploring the new and unknown; learning new programming languages, paradigms and algorithms
 are some of my top nerdy things I enjoy doing. Flipping bits in a low-level C programs that gets cross-compiled to 8-bit
