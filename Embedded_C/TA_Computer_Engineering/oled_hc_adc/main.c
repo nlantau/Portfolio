@@ -62,9 +62,9 @@ int main(void)
 {
     lcd_init(0xAF);
     lcd_clrscr();
-    ultrasonic_initINT0();
-    ultrasonic_initTrigEcho();
-    ultrasonic_initTimer2();
+    ultrasonic_init_INT0();
+    ultrasonic_init_trig_echo();
+    ultrasonic_init_timer2();
     timer0_init();
     adc_init();
     sei();

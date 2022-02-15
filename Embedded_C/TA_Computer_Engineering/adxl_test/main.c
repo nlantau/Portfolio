@@ -32,29 +32,28 @@
 
 int main(void)
 {
-    double ax = 0;
-    double ay = 0;
-    double az = 0;
-
-    char itmp[10];
-
-    uart_init();
-
-    adxl345_init();
-
-
-    while (1)
-    {
-        adxl345_getdata(&ax, &ay, &az);
-
+	double ax = 0;
+	double ay = 0;
+	double az = 0;
+	
+	char itmp[10];
+	
+	uart_init();
+	
+	adxl345_init();
+	
+	
+	while (1) {
+		adxl345_getdata(&ax, &ay, &az);
+		
 		dtostrf(ax, 3, 5, itmp); uart_sendString(itmp); uart_putc(' ');
 		dtostrf(ay, 3, 5, itmp); uart_sendString(itmp); uart_putc(' ');
 		dtostrf(az, 3, 5, itmp); uart_sendString(itmp); uart_putc(' ');
-
+		
 		uart_sendString("\r\n");
-        _delay_ms(100);
-
-    }
+		_delay_ms(100);
+	
+	}
 
 
 
