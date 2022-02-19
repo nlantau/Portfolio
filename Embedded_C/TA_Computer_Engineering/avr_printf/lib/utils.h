@@ -25,6 +25,5 @@
 /***** Function prototypes ************************************************/
 extern void delay_ms(uint16_t x);
 
-
 #endif /* UTILS_H_ */
 
