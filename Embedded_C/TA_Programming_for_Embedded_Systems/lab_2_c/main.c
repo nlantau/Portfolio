@@ -36,7 +36,9 @@ static const uint16_t ONE_SEC = 7500;
 static const uint8_t THRESHOLD = 200;
 
 /***** Variables **********************************************************/
+/* Since overflow_count is 16 bit, perhaps an atomic block is in order? */
 static volatile uint16_t overflow_count = 0;
+
 
 /***** MAIN ***************************************************************/
 int main(void)
