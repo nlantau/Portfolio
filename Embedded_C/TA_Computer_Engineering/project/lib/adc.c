@@ -31,7 +31,7 @@ uint8_t adc_init(void)
 
 } /* End adc_init() */
 
-uint8_t adc_read_to_array(uint8_t adc_channel, uint16_t *adc_arr)
+uint8_t adc_read_to_array(uint8_t adc_channel, uint16_t *adc_arr, uint8_t arr_index)
 {
 	/* Select channel with safety mask */
 	ADMUX = (ADMUX & 0xF0) | (adc_channel & 0x0F);
@@ -42,9 +42,9 @@ uint8_t adc_read_to_array(uint8_t adc_channel, uint16_t *adc_arr)
 	loop_until_bit_is_clear(ADCSRA, ADSC);
 
 	if (ADC >= 0)
-		adc_arr[adc_channel] = ADC;
+		adc_arr[arr_index] = ADC;
 	else
-		adc_arr[adc_channel] = 0;
+		adc_arr[arr_index] = 0;
 
 	return SUCCESS;
 

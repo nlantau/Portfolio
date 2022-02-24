@@ -4,23 +4,27 @@
  * Modified to use 5 IR-sensors that toggle 5 LEDs if value of 
  * IR-sensor is greater than a threshold. Play time with my son.
  *
+ * python -m serial.tools.miniterm
+ *
  * Created: 2022-02-22
- * Updated: 2022-02-22
+ * Updated: 2022-02-24
  * Author : nlantau
  **************************************************************************/
 
 /***** Include guard ******************************************************/
-#ifndef F_CPU
 #define F_CPU 16000000UL
-#endif /* F_CPU */
 
 /***** Include section ****************************************************/
 #include "lib/adc.h"
 #include "lib/uart.h"
 #include "lib/utils.h"
+#include "lib/font.h"
+#include "lib/oled.h"
+#include "lib/i2cmaster.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <string.h>
 
 /***** Macro Definitions **************************************************/
 #define LAB2 0
@@ -43,15 +47,20 @@ static volatile uint16_t overflow_count = 0;
 /***** MAIN ***************************************************************/
 int main(void)
 {
-#if PLAYTIME
-	uint8_t i, j, adc_ports[5] = {0x00, 0x01, 0x02, 0x03, 0x04};
-	uint16_t adc_value[5] = {0};
-	adc_init();
-#endif /* PLAYTIME */
-
 	stdout_init();
 	uart_init();
 	led_init();
+
+#if PLAYTIME
+	uint8_t i, j, adc_ports[5] = {0x00, 0x01, 0x02, 0x06, 0x07};
+	uint16_t adc_value[5] = {0};
+	char buff[10] = {0}, oled_buff[30] = {0};
+	adc_init();
+	lcd_init(0xAF);
+	lcd_clrscr();
+
+#endif /* PLAYTIME */
+
 #if LAB2
 	timer0_init();
 	sei();
@@ -59,26 +68,26 @@ int main(void)
 #endif /* LAB2 */
 
 	for (;;) {
-		/* Fun test
-		 * Use asm
-		 * loop:
-		 * rjump loop
-		 *
-		 */
 		asm volatile ("nop");
-		__no_operation();
 #if PLAYTIME
-		/* IR-array is connected (HW) in the opposite order
-		 * of the LEDs, hence the need for incrementing 
-		 * and decrementing variables
-		 */
-		for (i = 0, j = 6; i < 5; ++i, --j) {
-			adc_read_to_array(adc_ports[i], adc_value);
-			if (adc_value[i] > THRESHOLD) {
-				PORTD ^= (1 << j);
-			}
-			_delay_ms(5);
+
+		for (i = 0; i < 5; ++i) {
+			adc_read_to_array(adc_ports[i], adc_value, i);
+
+			sprintf(buff, "%d", adc_value[i]);
+			uart_puts(buff);
+			uart_putc('\t');
+
+			memset(buff, 0, 10);
+
 		}
+		uart_putc('\n');
+
+		sprintf(oled_buff, "%3d,%3d,%3d,%3d,%3d", adc_value[0], adc_value[1], adc_value[2], adc_value[3], adc_value[4]);
+
+		oled_puts("Niklas Lantau", 0, 0);
+		oled_puts(oled_buff, 0, 2);
+		_delay_ms(50);
 
 #endif /* PLAYTIME */
 	}
@@ -92,7 +101,6 @@ void led_init(void)
 {
 	DDRD |= (1 << PIND2) | (1 << PIND3) | (1 << PIND4) | (1 << PIND5) | (1 << PIND6);
 	PORTD &= ~((1 << PIND2) | (1 << PIND3) | (1 << PIND4) | (1 << PIND5) | (1 << PIND6));
-
 
 } /* End led_init() */
 

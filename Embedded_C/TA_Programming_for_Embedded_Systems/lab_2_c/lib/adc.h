@@ -27,7 +27,7 @@
 /***** Function prototypes ************************************************/
 extern uint8_t adc_init(void);
 extern uint16_t adc_read(uint8_t adc_channel);
-extern uint8_t adc_read_to_array(uint8_t adc_channel, uint16_t *adc_arr);
+extern uint8_t adc_read_to_array(uint8_t adc_channel, uint16_t *adc_arr, uint8_t arr_index);
 
 #endif /* ADC_H_ */
 
