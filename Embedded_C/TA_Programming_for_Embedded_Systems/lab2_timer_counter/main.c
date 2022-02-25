@@ -24,7 +24,7 @@
 /***** MAIN ***************************************************************/
 int main(void)
 {
-	/* LED on pin D2*/
+	/* Pin D2 set to output. */
 	DDRD |= (1 << PIND2);
 
 	/* Timer 1, CTC Mode */
