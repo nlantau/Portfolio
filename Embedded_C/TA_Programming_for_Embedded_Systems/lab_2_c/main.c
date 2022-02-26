@@ -47,74 +47,74 @@ static volatile uint16_t overflow_count = 0;
 /***** MAIN ***************************************************************/
 int main(void)
 {
-	stdout_init();
-	uart_init();
-	led_init();
+    stdout_init();
+    uart_init();
+    led_init();
 
 #if PLAYTIME
-	uint8_t i, j, adc_ports[5] = {0x00, 0x01, 0x02, 0x06, 0x07};
-	uint16_t adc_value[5] = {0};
-	char buff[10] = {0}, oled_buff[30] = {0};
-	adc_init();
-	lcd_init(0xAF);
-	lcd_clrscr();
+    uint8_t i, j, adc_ports[5] = {0x00, 0x01, 0x02, 0x06, 0x07};
+    uint16_t adc_value[5] = {0};
+    char buff[10] = {0}, oled_buff[30] = {0};
+    adc_init();
+    lcd_init(0xAF);
+    lcd_clrscr();
 
 #endif /* PLAYTIME */
 
 #if LAB2
-	timer0_init();
-	sei();
-	printf("Start\n");
+    timer0_init();
+    sei();
+    printf("Start\n");
 #endif /* LAB2 */
 
-	for (;;) {
-		asm volatile ("nop");
+    for (;;) {
+        asm volatile ("nop");
 #if PLAYTIME
 
-		for (i = 0; i < 5; ++i) {
-			adc_read_to_array(adc_ports[i], adc_value, i);
+        for (i = 0; i < 5; ++i) {
+            adc_read_to_array(adc_ports[i], adc_value, i);
 
-			sprintf(buff, "%d", adc_value[i]);
-			uart_puts(buff);
-			uart_putc('\t');
+            sprintf(buff, "%d", adc_value[i]);
+            uart_puts(buff);
+            uart_putc('\t');
 
-			memset(buff, 0, 10);
+            memset(buff, 0, 10);
 
-		}
-		uart_putc('\n');
+        }
+        uart_putc('\n');
 
-		sprintf(oled_buff, "%3d,%3d,%3d,%3d,%3d", adc_value[0], adc_value[1], adc_value[2], adc_value[3], adc_value[4]);
+        sprintf(oled_buff, "%3d,%3d,%3d,%3d,%3d", adc_value[0], adc_value[1], adc_value[2], adc_value[3], adc_value[4]);
 
-		oled_puts("Niklas Lantau", 0, 0);
-		oled_puts(oled_buff, 0, 2);
-		_delay_ms(50);
+        oled_puts("Niklas Lantau", 0, 0);
+        oled_puts(oled_buff, 0, 2);
+        _delay_ms(50);
 
 #endif /* PLAYTIME */
-	}
+    }
 
-	return 0;
+    return 0;
 
 } /* End main() */
 
 
 void led_init(void)
 {
-	DDRD |= (1 << PIND2) | (1 << PIND3) | (1 << PIND4) | (1 << PIND5) | (1 << PIND6);
-	PORTD &= ~((1 << PIND2) | (1 << PIND3) | (1 << PIND4) | (1 << PIND5) | (1 << PIND6));
+    DDRD |= (1 << PIND2) | (1 << PIND3) | (1 << PIND4) | (1 << PIND5) | (1 << PIND6);
+    PORTD &= ~((1 << PIND2) | (1 << PIND3) | (1 << PIND4) | (1 << PIND5) | (1 << PIND6));
 
 } /* End led_init() */
 
 void led_toggle(void)
 {
 #if LAB2
-	int i;
-	printf("> Toggling LED: %s\n", PINB & (1 << PINB1) ? "Off" : "On");
-	for (i = 0; i < 40; ++i) {
-		printf("%c", uart_getc());
-	}
-	printf("\n");
+    int i;
+    printf("> Toggling LED: %s\n", PINB & (1 << PINB1) ? "Off" : "On");
+    for (i = 0; i < 40; ++i) {
+        printf("%c", uart_getc());
+    }
+    printf("\n");
 #endif
-	PORTD ^= (1 << PIND2) | (1 << PIND3) | (1 << PIND4) | (1 << PIND5) | (1 << PIND6);
+    PORTD ^= (1 << PIND2) | (1 << PIND3) | (1 << PIND4) | (1 << PIND5) | (1 << PIND6);
 
 } /* End led_toggle() */
 
@@ -136,8 +136,8 @@ ISR(TIMER0_OVF_vect)
 
     overflow_count++;
     if (overflow_count == ONE_SEC) {
-	    led_toggle();
-	    overflow_count = 0;
+        led_toggle();
+        overflow_count = 0;
     }
 
 } /* End ISR() */
