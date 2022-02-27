@@ -43,57 +43,57 @@ static void send_trig_signal(void);
 /***** INT1 ***************************************************************/
 static void int1_init(void)
 {
-	/* Any logical change */
-	EICRA |= (1 << ISC10);
+    /* Any logical change */
+    EICRA |= (1 << ISC10);
 
-	/* INT1 enable */
-	EIMSK |= (1 << INT1);
+    /* INT1 enable */
+    EIMSK |= (1 << INT1);
 }
 
 
 /***** TIMER1 *************************************************************/
 static void timer1_init(void)
 {
-	/* Timer/Counter1 counting register init to zero */
-	TCNT1 = 0;
+    /* Timer/Counter1 counting register init to zero */
+    TCNT1 = 0;
 
-	/* Timer/Counter1, Overflow Interrrupt Enable */
-	TIMSK1 |= (1 << TOIE1);
+    /* Timer/Counter1, Overflow Interrrupt Enable */
+    TIMSK1 |= (1 << TOIE1);
 
-	/* Clear Timer/Counter1, Overflow flag*/
-	TIFR1 |= (1 << TOV0);
+    /* Clear Timer/Counter1, Overflow flag*/
+    TIFR1 |= (1 << TOV0);
 
 } /* End timer1_init() */
 
 static void timer1_start(void)
 {
-	/* Prescaler 64 */
-	TCCR1B |= (1 << CS10) | (1 << CS11);
+    /* Prescaler 64 */
+    TCCR1B |= (1 << CS10) | (1 << CS11);
 
 } /* End timer1_start() */
 
 static void timer1_stop(void)
 {
-	TCCR1B &= ~(1 << CS10);
-	TCCR1B &= ~(1 << CS11);
-	TCCR1B &= ~(1 << CS12);
+    TCCR1B &= ~(1 << CS10);
+    TCCR1B &= ~(1 << CS11);
+    TCCR1B &= ~(1 << CS12);
 
 } /* End timer1_stop() */
 
 static void timer1_reset(void)
 {
-	timer1_stop();
-	overflow_count = 0;
-	TCNT1 = 0;
+    timer1_stop();
+    overflow_count = 0;
+    TCNT1 = 0;
 
 } /* End timer1_reset() */
 
 static uint64_t timer1_micros(void)
 {
-	static const uint8_t MICROS_PER_TCNT1 = PRESCALER / CLOCKS_PER_MICRO;
-	static const uint32_t MICROS_PER_OVERFLOW = MICROS_PER_TCNT1 * MAX_COUNTS_COUNTER_REGISTER;
+    static const uint8_t MICROS_PER_TCNT1 = PRESCALER / CLOCKS_PER_MICRO;
+    static const uint32_t MICROS_PER_OVERFLOW = MICROS_PER_TCNT1 * MAX_COUNTS_COUNTER_REGISTER;
 
-	return overflow_count * MICROS_PER_OVERFLOW + TCNT1 * MICROS_PER_TCNT1;
+    return overflow_count * MICROS_PER_OVERFLOW + TCNT1 * MICROS_PER_TCNT1;
 
 } /* End timer1_micros() */
 
@@ -101,31 +101,31 @@ static uint64_t timer1_micros(void)
 /***** HC-SR04 ************************************************************/
 void hc_sr04_init(void)
 {
-	DDRB |= (1 << trig_pin);
-	DDRD &= ~(1 << echo_pin);
+    DDRB |= (1 << trig_pin);
+    DDRD &= ~(1 << echo_pin);
 
-	timer1_init();
-	int1_init();
+    timer1_init();
+    int1_init();
 
 } /* End hc_sr04_init() */
 
 static void send_trig_signal(void)
 {
-	PORTB &= ~(1 << trig_pin);
-	_delay_us(2);
-	PORTB |= (1 << trig_pin);
-	_delay_ms(10);
-	PORTB &= ~(1 << trig_pin);
+    PORTB &= ~(1 << trig_pin);
+    _delay_us(2);
+    PORTB |= (1 << trig_pin);
+    _delay_ms(10);
+    PORTB &= ~(1 << trig_pin);
 
 } /* End send_trig_signal() */
 
 uint16_t hc_sr04_distance(void)
 {
-	send_trig_signal();
-	distance = (uint16_t) ((timer1_micros() * 17) / 100);
-	timer1_reset();
+    send_trig_signal();
+    distance = (uint16_t) ((timer1_micros() * 17) / 100);
+    timer1_reset();
 
-	return distance;
+    return distance;
 
 } /* hc_sr04_distance() */
 
@@ -133,16 +133,16 @@ uint16_t hc_sr04_distance(void)
 /***** Interrupt Service Routines *****************************************/
 ISR(TIMER1_OVF_vect)
 {
-	overflow_count++;
+    overflow_count++;
 
 } /* End ISR() */
 
 ISR(INT1_vect)
 {
-	if (PIND & (1 << echo_pin))
-		timer1_start();
-	else
-		timer1_stop();
+    if (PIND & (1 << echo_pin))
+        timer1_start();
+    else
+        timer1_stop();
 
 } /* End ISR() */
 
