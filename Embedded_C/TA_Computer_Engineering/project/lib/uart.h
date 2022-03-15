@@ -33,11 +33,11 @@
 
 /***** Function prototypes ************************************************/
 
-extern uint8_t uart_init(void);
-
 /* Must return 'int' according to the definition of 
- * FDEV_SETUP_STREAM() in stdio.h */
+ * FDEV_SETUP_STREAM() in stdio.h
+ */
 extern int uart_putchar_stream(char c, FILE *stream);
+extern void uart_init(void);
 extern uint8_t stdout_init(void);
 extern void uart_putc(uint8_t data);
 extern uint8_t uart_getc(void);

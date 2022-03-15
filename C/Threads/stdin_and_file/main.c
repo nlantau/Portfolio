@@ -13,9 +13,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include <pthread.h>
 #include <time.h>
 #include <unistd.h>
+#include <pthread.h>
+#include <stdatomic.h>
 
 /***** Macro Definitions **************************************************/
 
@@ -37,13 +38,13 @@ pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
 uint8_t counter = 20;
 struct data
 {
-    uint8_t iret1;
-    uint8_t iret2;
+    atomic_int iret1;
+    atomic_int iret2;
 } ret_val;
 
 struct user_data
 {
-    char *name;
+    char _Atomic *name;
     uint8_t counter;
 };
 

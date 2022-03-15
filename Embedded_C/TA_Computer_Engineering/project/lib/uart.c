@@ -26,16 +26,27 @@ uint8_t stdout_init(void)
     return SUCCESS;
 }
 
-uint8_t uart_init(void)
+void uart_init(void)
 {
-    /* Sets BAUD to 9600 */
-    UBRR0H = MYUBRR >> 8;
-    UBRR0L = MYUBRR;
+	/* Enable RX and TX */
+	UCSR0B = (1 << RXEN0) | (1 << TXEN0);
 
-    /* Enable RX and TX */
-    UCSR0B = (1 << RXEN0) | (1 << TXEN0);
+    /* Disable transmission complete interrupt */
+    UCSR0B &= ~(1 << TXCIE0);
 
-    return SUCCESS;
+    /* 8-bit character size */
+    UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
+
+	/* Sets BAUD to 9600 */
+	UBRR0H = MYUBRR >> 8;
+	UBRR0L = MYUBRR;
+
+#if UART_RX_INT == 1
+    /* Enable RX interrupt */
+    UCSR0B |= (1 << RXCIE0);
+
+    sei();
+#endif
 
 } /* End uart_init() */
 
@@ -61,6 +72,7 @@ void uart_putc(uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = data;
+
 } /* uart_putc() */
 
 void uart_puts(const char *s)
