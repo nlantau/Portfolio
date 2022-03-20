@@ -28,8 +28,8 @@ uint8_t stdout_init(void)
 
 void uart_init(void)
 {
-	/* Enable RX and TX */
-	UCSR0B = (1 << RXEN0) | (1 << TXEN0);
+    /* Enable RX and TX */
+    UCSR0B = (1 << RXEN0) | (1 << TXEN0);
 
     /* Disable transmission complete interrupt */
     UCSR0B &= ~(1 << TXCIE0);
@@ -37,9 +37,9 @@ void uart_init(void)
     /* 8-bit character size */
     UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
 
-	/* Sets BAUD to 9600 */
-	UBRR0H = MYUBRR >> 8;
-	UBRR0L = MYUBRR;
+    /* Sets BAUD to 9600 */
+    UBRR0H = MYUBRR >> 8;
+    UBRR0L = MYUBRR;
 
 #if UART_RX_INT == 1
     /* Enable RX interrupt */
