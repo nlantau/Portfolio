@@ -30,7 +30,7 @@ void *readlines(void *path);
 /***** MAIN ***************************************************************/
 int main(int argc, char *argv[])
 {
-    int pret, i = 0, j;
+    int i = 0, j;
     char **lines = NULL;
     void *vptr_return;
     pthread_t thread1;
@@ -39,9 +39,7 @@ int main(int argc, char *argv[])
 
     fprintf(stdout, "> Reading file...\n\n");
 
-    pret = pthread_create(&thread1, NULL, readlines, "text.txt");
-    
-    if (!!pret) {
+    if (!!pthread_create(&thread1, NULL, readlines, "text.txt")) {
         fprintf(stderr, "> Thread error. Exiting.\n");
         exit(1);
     }
