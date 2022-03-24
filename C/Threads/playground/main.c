@@ -88,7 +88,7 @@ void *readlines(void *path)
         }
 
     fclose(fp);
-    pthread_exit((void*)rows);
+    pthread_exit(rows);
 }
 
 
