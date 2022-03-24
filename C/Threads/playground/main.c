@@ -1,8 +1,9 @@
 /***************************************************************************
- * Playground - Readlines and what not...
+ * Playground - Readlines and threads. Returning char ** via some
+ *              typecasting and what not...
  *
  * Created: 2022-03-23
- * Updated: 2022-03-23
+ * Updated: 2022-03-24
  * Author : nlantau
  **************************************************************************/
 
@@ -12,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 
 /***** Macro Definitions **************************************************/
 
@@ -19,7 +21,7 @@
 
 /***** Function prototypes ************************************************/
 static void print_compiler_version(void);
-static char **readlines(char *path);
+void *readlines(void *path);
 
 /***** Constants **********************************************************/
 
@@ -28,23 +30,30 @@ static char **readlines(char *path);
 /***** MAIN ***************************************************************/
 int main(int argc, char *argv[])
 {
-    const char a = 'A';
-    char const *const pa = &a;
-
-    fprintf(stdout, "%c\n", *pa);
+    int pret, i = 0, j;
+    char **lines = NULL;
+    void *vptr_return;
+    pthread_t thread1;
 
     print_compiler_version();
 
     fprintf(stdout, "> Reading file...\n\n");
-    char **lines = readlines("text.txt");
+
+    pret = pthread_create(&thread1, NULL, readlines, "text.txt");
+    
+    if (!!pret) {
+        fprintf(stderr, "> Thread error. Exiting.\n");
+        exit(1);
+    }
+
+    pthread_join(thread1, &vptr_return);
+    lines = (char**)vptr_return;
 
     printf("\n\n> Readlines:\n");
 
-    for (int i = 0; lines[i] != NULL; ++i, printf("\n")) {
-        for (int j = 0; lines[i][j] != '\0'; ++j)
+    for ( ; lines[i] != NULL; printf("\n"), free(lines[i]), lines[i++] = NULL)
+        for (j = 0; lines[i][j] != '\0'; ++j)
             printf("%c", lines[i][j]);
-        free(lines[i]); lines[i] = NULL;
-    }
 
     free(lines); lines = NULL;
 
@@ -54,11 +63,12 @@ int main(int argc, char *argv[])
 } /* End main() */
 
 
-static char **readlines(char *path)
+void *readlines(void *path)
 {
-    FILE *fp = fopen(path, "r");
+    char *p = (char*)path;
+    FILE *fp = fopen(p, "r");
     if (!fp) {
-        fprintf(stderr, "> Could not find: %s. Exiting.\n", path);
+        fprintf(stderr, "> Could not find: %s. Exiting.\n", p);
         exit(1);
     }
 
@@ -78,7 +88,7 @@ static char **readlines(char *path)
         }
 
     fclose(fp);
-    return rows;;
+    pthread_exit((void*)rows);
 }
 
 
