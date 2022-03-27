@@ -86,11 +86,11 @@ ISR(TIMER0_OVF_vect, ISR_BLOCK)
         PORTD ^= (1 << PIND3);
         sprintf(timer0_buffer, "%d", timer0_seconds);
 
-        uart_puts(timer0_buffer);
-        uart_putc('\n');
-
         /* Re-enable interrupts */
         SREG = _sreg;
+
+        uart_puts(timer0_buffer);
+        uart_putc('\n');
     }
 }
 
@@ -129,12 +129,13 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
     PORTD ^= (1 << PIND6);
     timer1_seconds++;
     sprintf(timer1_buffer, "%d", timer1_seconds);
-    uart_putc('\t');
-    uart_puts(timer1_buffer);
-    uart_putc('\n');
 
     /* Re-enable interrupts */
     SREG = _sreg;
+
+    uart_putc('\t');
+    uart_puts(timer1_buffer);
+    uart_putc('\n');
 }
 
 
@@ -181,13 +182,14 @@ ISR(TIMER2_OVF_vect, ISR_BLOCK)
         PORTB ^= (1 << PINB1);
         sprintf(timer2_buffer, "%d", timer2_seconds);
 
+        /* Re-enable interrupts */
+        SREG = _sreg;
+
         uart_putc('\t');
         uart_putc('\t');
         uart_puts(timer2_buffer);
         uart_putc('\n');
 
-        /* Re-enable interrupts */
-        SREG = _sreg;
     }
 }
 
