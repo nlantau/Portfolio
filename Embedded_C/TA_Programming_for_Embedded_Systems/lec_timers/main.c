@@ -3,7 +3,7 @@
  *
  *
  * Created: 2022-03-26
- * Updated: 2022-03-27
+ * Updated: 2022-03-28
  * Author : nlantau
  **************************************************************************/
 
@@ -19,11 +19,15 @@
 #define BAUD             9600
 #define MYUBRR           F_CPU/16/BAUD-1
 #define TIMER1_CTC_VALUE 15625
+#define UART_ENABLE      0
 
 /***** Function prototypes ************************************************/
+#if UART_ENABLE
 inline static void uart_init(void);
 static void uart_putc(uint8_t data);
 static void uart_puts(const char *s);
+#endif /* UART_ENABLE */
+
 static void timer0_init(void);
 static void timer1_init(void);
 static void timer2_init(void);
@@ -46,7 +50,10 @@ static volatile char timer2_buffer[5] = { 0 };
 /***** MAIN ***************************************************************/
 int main(void)
 {
+#if UART_ENABLE
     uart_init();
+#endif /* UART_ENABLE*/
+
     timer0_init();
     timer1_init();
     timer2_init();
@@ -62,8 +69,9 @@ int main(void)
     PORTB &= ~(1 << PINB1);
 
 
-    for (;;)
+    for (;;) {
         asm volatile ("nop");
+    }
 
 	return 0;
 
@@ -84,13 +92,16 @@ ISR(TIMER0_OVF_vect, ISR_BLOCK)
         timer0_ovf_counter = 0;
         timer0_seconds++;
         PORTD ^= (1 << PIND3);
+
+#if UART_ENABLE
         sprintf(timer0_buffer, "%d", timer0_seconds);
+        uart_puts(timer0_buffer);
+        uart_putc('\n');
+#endif /* UART_ENABLE */
 
         /* Re-enable interrupts */
         SREG = _sreg;
 
-        uart_puts(timer0_buffer);
-        uart_putc('\n');
     }
 }
 
@@ -128,14 +139,17 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
 
     PORTD ^= (1 << PIND6);
     timer1_seconds++;
+
+#if UART_ENABLE
     sprintf(timer1_buffer, "%d", timer1_seconds);
+    uart_putc('\t');
+    uart_puts(timer1_buffer);
+    uart_putc('\n');
+#endif /* UART_ENABLE */
 
     /* Re-enable interrupts */
     SREG = _sreg;
 
-    uart_putc('\t');
-    uart_puts(timer1_buffer);
-    uart_putc('\n');
 }
 
 
@@ -180,15 +194,18 @@ ISR(TIMER2_OVF_vect, ISR_BLOCK)
         timer2_seconds++;
 
         PORTB ^= (1 << PINB1);
+
+#if UART_ENABLE
         sprintf(timer2_buffer, "%d", timer2_seconds);
-
-        /* Re-enable interrupts */
-        SREG = _sreg;
-
         uart_putc('\t');
         uart_putc('\t');
         uart_puts(timer2_buffer);
         uart_putc('\n');
+#endif /* UART_ENABLE */
+
+        /* Re-enable interrupts */
+        SREG = _sreg;
+
 
     }
 }
@@ -219,6 +236,7 @@ static void timer2_init(void)
 }
 
 /***** USART0 *************************************************************/
+#if UART_ENABLE
 #ifdef __GNUC__
 __attribute__((always_inline)) 
 #endif
@@ -260,6 +278,7 @@ static void uart_puts(const char *s)
     while (*s) uart_putc(*s++);
 
 } /* End uart_puts */
+#endif /* UART_ENABLE */
 
 /* End main.c */
 
